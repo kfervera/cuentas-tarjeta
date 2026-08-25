@@ -1,0 +1,127 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 10;
+}
+
+.modal {
+  width: 100%;
+  max-width: 420px;
+  background: var(--background);
+  border-radius: 16px 16px 0 0;
+  padding: 20px;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 480px) {
+  .backdrop {
+    align-items: center;
+  }
+
+  .modal {
+    border-radius: 16px;
+  }
+}
+
+.titulo {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.descripcion {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin-top: -8px;
+}
+
+.monto {
+  font-family: var(--font-geist-mono), monospace;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.campos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.campo label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.campoKei label {
+  color: var(--kei);
+}
+
+.campoKev label {
+  color: var(--kev);
+}
+
+.campo input {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 1rem;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.campo input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.errorSplit {
+  font-size: 0.8125rem;
+  color: var(--warning);
+}
+
+.errorAccion {
+  font-size: 0.8125rem;
+  color: var(--warning);
+}
+
+.acciones {
+  display: flex;
+  gap: 12px;
+}
+
+.acciones button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border: 1px solid var(--border);
+}
+
+.cancelar {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.guardar {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  border-color: var(--accent);
+}
+
+.guardar:disabled {
+  opacity: 0.5;
+}

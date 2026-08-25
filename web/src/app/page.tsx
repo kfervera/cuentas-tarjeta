@@ -6,7 +6,7 @@ import { TransaccionList } from "@/components/TransaccionList";
 import styles from "./page.module.css";
 
 export default function Home() {
-  const { transacciones, cargando, error } = useTransacciones();
+  const { transacciones, cargando, error, accionError, actualizarAsignacion } = useTransacciones();
 
   if (cargando) {
     return <main className={styles.estado}>Cargando…</main>;
@@ -19,7 +19,12 @@ export default function Home() {
   return (
     <main className={styles.page}>
       <TotalesHeader transacciones={transacciones} />
-      <TransaccionList transacciones={transacciones} />
+      {accionError && (
+        <p className={styles.accionError} role="alert">
+          {accionError}
+        </p>
+      )}
+      <TransaccionList transacciones={transacciones} onAsignar={actualizarAsignacion} />
     </main>
   );
 }

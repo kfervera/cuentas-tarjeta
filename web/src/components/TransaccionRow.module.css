@@ -1,11 +1,44 @@
+.rowWrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Capa revelada detrás de la fila al arrastrar — mitad izquierda para Kei
+   (swipe a la derecha), mitad derecha para Kev (swipe a la izquierda). El
+   split queda muy por dentro del recorrido máximo de arrastre (MAX_DRAG_PX
+   en TransaccionRow.tsx), así siempre se ve un color sólido — ver
+   requerimientos-web.md §5.2. */
+.fondo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: linear-gradient(to right, var(--kei) 50%, var(--kev) 50%);
+}
+
+.fondoLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+}
+
 .row {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   padding: 12px 16px;
+  background: var(--background);
   border-bottom: 1px solid var(--border);
   border-left: 3px solid transparent;
+  touch-action: pan-y;
+  user-select: none;
 }
 
 .pago {

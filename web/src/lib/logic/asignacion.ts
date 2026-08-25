@@ -13,3 +13,12 @@ export function describirAsignacion(
   if (Math.abs(transaccion.monto_kev - transaccion.monto) < MONTO_EPSILON) return "kev";
   return "dividido";
 }
+
+// Resultado de asignar el 100% del monto a una sola persona (swipe) — ver
+// requerimientos-web.md §5.2.
+export function asignarCompleto(
+  monto: number,
+  persona: "kei" | "kev",
+): { montoKei: number; montoKev: number } {
+  return persona === "kei" ? { montoKei: monto, montoKev: 0 } : { montoKei: 0, montoKev: monto };
+}
