@@ -1,6 +1,4 @@
-// Misma tolerancia que split.ts: absorbe errores de punto flotante al sumar
-// montos con 2 decimales, sin ocultar diferencias reales de extracción.
-const EPSILON = 0.005;
+import { MONTO_EPSILON } from "./epsilon";
 
 export interface ResultadoCuadre {
   cuadra: boolean;
@@ -18,5 +16,5 @@ export function validarCuadre(
   if (totalFacturado === null) return null;
 
   const diferencia = sumaTransacciones - totalFacturado;
-  return { cuadra: Math.abs(diferencia) < EPSILON, diferencia };
+  return { cuadra: Math.abs(diferencia) < MONTO_EPSILON, diferencia };
 }

@@ -1,0 +1,11 @@
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.vacio {
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--muted);
+}
