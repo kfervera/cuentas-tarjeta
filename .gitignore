@@ -3,3 +3,6 @@
 *.pdf
 venv/
 .DS_Store
+plan-web.md
+.gitignore
+requerimientos-web.md
