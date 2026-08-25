@@ -45,6 +45,10 @@
   border-left-color: var(--success);
 }
 
+.deuda {
+  border-left-color: var(--danger);
+}
+
 /* Confirmada = ya revisada manualmente en la app: se atenúa para que las
    filas pendientes (el punto ámbar de .dotPendiente) sean lo que salta a la
    vista — ver requerimientos-web.md §5.2. */
@@ -60,25 +64,6 @@
   min-width: 0;
 }
 
-.descripcionLinea {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  min-width: 0;
-}
-
-.badgePago {
-  flex-shrink: 0;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--success);
-  border: 1px solid var(--success);
-  border-radius: 4px;
-  padding: 1px 5px;
-}
-
 .descripcion {
   min-width: 0;
   font-weight: 500;
@@ -87,9 +72,34 @@
   white-space: nowrap;
 }
 
+.metaLinea {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .fecha {
   font-size: 0.8125rem;
   color: var(--muted);
+}
+
+.tarjeta {
+  flex-shrink: 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #fff;
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+.tarjetaKei {
+  background: var(--titular-kei);
+}
+
+.tarjetaKev {
+  background: var(--titular-kev);
 }
 
 .detalle {
@@ -107,6 +117,10 @@
 
 .montoPago {
   color: var(--success);
+}
+
+.montoDeuda {
+  color: var(--danger);
 }
 
 .asignacion {

@@ -7,8 +7,13 @@
   --border: #e5e7eb;
   --success: #16a34a;
   --warning: #d97706;
+  --danger: #dc2626;
   --kei: #2563eb;
   --kev: #d946ef;
+  /* Colores fijos del label "tarjeta usada" en TransaccionRow — no cambian
+     entre temas (texto blanco sobre fondo sólido en ambos casos). */
+  --titular-kei: #000000;
+  --titular-kev: #2563eb;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,6 +26,7 @@
     --border: #27272a;
     --success: #4ade80;
     --warning: #fbbf24;
+    --danger: #f87171;
     --kei: #60a5fa;
     --kev: #e879f9;
   }

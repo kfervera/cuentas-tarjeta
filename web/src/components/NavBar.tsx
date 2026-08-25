@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import styles from "./NavBar.module.css";
 
 const ENLACES = [
-  { href: "/", etiqueta: "Transacciones" },
-  { href: "/resumen", etiqueta: "Resumen" },
+  { href: "/", etiqueta: "PEN" },
+  { href: "/usd", etiqueta: "USD" },
 ];
 
 export function NavBar() {

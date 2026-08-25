@@ -2,18 +2,21 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { getTransacciones, updateAsignacion } from "@/lib/data/transacciones";
-import type { Transaccion } from "@/lib/data/database.types";
+import { getResumenEstadoCuenta } from "@/lib/data/resumen";
+import type { ResumenEstadoCuenta, Transaccion } from "@/lib/data/database.types";
 
-interface UseTransaccionesResult {
+interface UseCuentaResult {
   transacciones: Transaccion[];
+  resumen: ResumenEstadoCuenta | null;
   cargando: boolean;
   error: string | null;
   accionError: string | null;
   actualizarAsignacion: (id: string, montoKei: number, montoKev: number) => Promise<boolean>;
 }
 
-export function useTransacciones(): UseTransaccionesResult {
+export function useCuenta(): UseCuentaResult {
   const [transacciones, setTransacciones] = useState<Transaccion[]>([]);
+  const [resumen, setResumen] = useState<ResumenEstadoCuenta | null>(null);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [accionError, setAccionError] = useState<string | null>(null);
@@ -21,9 +24,11 @@ export function useTransacciones(): UseTransaccionesResult {
   useEffect(() => {
     let cancelado = false;
 
-    getTransacciones()
-      .then((data) => {
-        if (!cancelado) setTransacciones(data);
+    Promise.all([getTransacciones(), getResumenEstadoCuenta()])
+      .then(([transaccionesData, resumenData]) => {
+        if (cancelado) return;
+        setTransacciones(transaccionesData);
+        setResumen(resumenData);
       })
       .catch(() => {
         if (!cancelado) setError("No se pudieron cargar las transacciones.");
@@ -68,5 +73,5 @@ export function useTransacciones(): UseTransaccionesResult {
     [],
   );
 
-  return { transacciones, cargando, error, accionError, actualizarAsignacion };
+  return { transacciones, resumen, cargando, error, accionError, actualizarAsignacion };
 }

@@ -2,6 +2,6 @@
 
 import { CuentaMoneda } from "@/components/CuentaMoneda";
 
-export default function Home() {
-  return <CuentaMoneda moneda="PEN" />;
+export default function UsdPage() {
+  return <CuentaMoneda moneda="USD" />;
 }

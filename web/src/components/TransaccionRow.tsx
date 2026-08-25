@@ -1,5 +1,5 @@
 import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
-import type { Transaccion } from "@/lib/data/database.types";
+import type { Titular, Transaccion } from "@/lib/data/database.types";
 import { formatFecha } from "@/lib/format/fecha";
 import { formatMonto } from "@/lib/format/monto";
 import { asignarCompleto, describirAsignacion, type Asignacion } from "@/lib/logic/asignacion";
@@ -10,6 +10,16 @@ const ETIQUETA_ASIGNACION: Record<Asignacion, string> = {
   kei: "Kei",
   kev: "Kev",
   dividido: "Dividido",
+};
+
+const ETIQUETA_TARJETA: Record<Titular, string> = {
+  KEI: "Tarjeta KEI",
+  KEVIN: "Tarjeta KEV",
+};
+
+const CLASE_TARJETA: Record<Titular, string> = {
+  KEI: styles.tarjetaKei,
+  KEVIN: styles.tarjetaKev,
 };
 
 // Distancia mínima para que un swipe cuente como asignación (no un roce
@@ -36,10 +46,14 @@ export function TransaccionRow({ transaccion, onAsignar }: TransaccionRowProps) 
   const asignacion = describirAsignacion(transaccion);
   const esPago = transaccion.tipo === "pago";
 
-  const rowClass = [styles.row, esPago && styles.pago, transaccion.confirmado && styles.confirmado]
+  const rowClass = [
+    styles.row,
+    esPago ? styles.pago : styles.deuda,
+    transaccion.confirmado && styles.confirmado,
+  ]
     .filter(Boolean)
     .join(" ");
-  const montoClass = [styles.monto, esPago && styles.montoPago].filter(Boolean).join(" ");
+  const montoClass = [styles.monto, esPago ? styles.montoPago : styles.montoDeuda].join(" ");
 
   function handlePointerDown(e: ReactPointerEvent<HTMLDivElement>) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
@@ -107,11 +121,15 @@ export function TransaccionRow({ transaccion, onAsignar }: TransaccionRowProps) 
         onPointerCancel={handlePointerCancel}
       >
         <div className={styles.info}>
-          <span className={styles.descripcionLinea}>
-            {esPago && <span className={styles.badgePago}>Abono</span>}
-            <span className={styles.descripcion}>{transaccion.descripcion}</span>
+          <span className={styles.descripcion}>{transaccion.descripcion}</span>
+          <span className={styles.metaLinea}>
+            <span className={styles.fecha}>{formatFecha(transaccion.fecha_consumo)}</span>
+            {transaccion.titular && (
+              <span className={`${styles.tarjeta} ${CLASE_TARJETA[transaccion.titular]}`}>
+                {ETIQUETA_TARJETA[transaccion.titular]}
+              </span>
+            )}
           </span>
-          <span className={styles.fecha}>{formatFecha(transaccion.fecha_consumo)}</span>
         </div>
         <div className={styles.detalle}>
           <span className={montoClass}>{formatMonto(transaccion.monto, transaccion.moneda)}</span>
