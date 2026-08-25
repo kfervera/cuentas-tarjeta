@@ -1,0 +1,15 @@
+.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.estado {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  color: var(--muted);
+}
