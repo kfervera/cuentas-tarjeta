@@ -115,6 +115,12 @@
   border: 1px solid var(--border);
 }
 
+.mitad {
+  background: var(--background);
+  color: var(--muted);
+  border-style: dashed;
+}
+
 .cancelar {
   background: var(--background);
   color: var(--foreground);

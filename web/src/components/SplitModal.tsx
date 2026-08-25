@@ -43,6 +43,12 @@ export function SplitModal({ transaccion, onCancelar, onGuardar }: SplitModalPro
     setMontoKeiTexto(String(calcularRestante(transaccion.monto, montoKev)));
   }
 
+  function handleMitad() {
+    const mitad = Math.round((transaccion.monto / 2) * 100) / 100;
+    setMontoKeiTexto(String(mitad));
+    setMontoKevTexto(String(calcularRestante(transaccion.monto, mitad)));
+  }
+
   async function handleGuardar() {
     if (!esValido || guardando) return;
     setGuardando(true);
@@ -108,6 +114,14 @@ export function SplitModal({ transaccion, onCancelar, onGuardar }: SplitModalPro
         {error && <p className={styles.errorAccion}>{error}</p>}
 
         <div className={styles.acciones}>
+          <button
+            type="button"
+            className={styles.mitad}
+            onClick={handleMitad}
+            disabled={guardando}
+          >
+            50/50
+          </button>
           <button
             type="button"
             className={styles.cancelar}
