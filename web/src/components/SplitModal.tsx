@@ -43,21 +43,28 @@ export function SplitModal({ transaccion, onCancelar, onGuardar }: SplitModalPro
     setMontoKeiTexto(String(calcularRestante(transaccion.monto, montoKev)));
   }
 
-  function handleMitad() {
-    const mitad = Math.round((transaccion.monto / 2) * 100) / 100;
-    setMontoKeiTexto(String(mitad));
-    setMontoKevTexto(String(calcularRestante(transaccion.monto, mitad)));
-  }
-
-  async function handleGuardar() {
-    if (!esValido || guardando) return;
+  async function guardar(kei: number, kev: number) {
+    if (guardando) return;
     setGuardando(true);
     setError(null);
-    const ok = await onGuardar(montoKei, montoKev);
+    const ok = await onGuardar(kei, kev);
     setGuardando(false);
     if (!ok) {
       setError("No se pudo guardar la asignación. Intenta de nuevo.");
     }
+  }
+
+  async function handleGuardar() {
+    if (!esValido) return;
+    await guardar(montoKei, montoKev);
+  }
+
+  async function handleMitad() {
+    const mitad = Math.round((transaccion.monto / 2) * 100) / 100;
+    const restante = calcularRestante(transaccion.monto, mitad);
+    setMontoKeiTexto(String(mitad));
+    setMontoKevTexto(String(restante));
+    await guardar(mitad, restante);
   }
 
   return (
