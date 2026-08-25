@@ -69,6 +69,7 @@ export interface Database {
           confirmado?: boolean;
           created_at?: string;
         };
+        Relationships: [];
       };
       reglas: {
         Row: {
@@ -95,6 +96,7 @@ export interface Database {
           kev_pct?: number;
           created_at?: string;
         };
+        Relationships: [];
       };
       resumen_estado_cuenta: {
         Row: {
@@ -121,8 +123,11 @@ export interface Database {
           monto_total_facturado_usd?: number | null;
           created_at?: string;
         };
+        Relationships: [];
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
   };
 }
 
