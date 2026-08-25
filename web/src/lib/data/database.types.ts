@@ -125,3 +125,9 @@ export interface Database {
     };
   };
 }
+
+// Alias de conveniencia para usar en lib/data y lib/logic sin repetir el
+// camino completo hacia Database["public"]["Tables"][...].
+export type Transaccion = Database["public"]["Tables"]["transacciones"]["Row"];
+export type TransaccionUpdate = Database["public"]["Tables"]["transacciones"]["Update"];
+export type ResumenEstadoCuenta = Database["public"]["Tables"]["resumen_estado_cuenta"]["Row"];
