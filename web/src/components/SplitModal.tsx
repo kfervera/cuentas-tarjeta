@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Transaccion } from "@/lib/data/database.types";
 import { formatMonto } from "@/lib/format/monto";
-import { validarSplit } from "@/lib/logic/split";
+import { calcularRestante, excedeTotal } from "@/lib/logic/split";
 import styles from "./SplitModal.module.css";
 
 interface SplitModalProps {
@@ -26,10 +26,22 @@ export function SplitModal({ transaccion, onCancelar, onGuardar }: SplitModalPro
 
   const montoKei = Number.parseFloat(montoKeiTexto);
   const montoKev = Number.parseFloat(montoKevTexto);
+  const keiExcede = Number.isFinite(montoKei) && excedeTotal(transaccion.monto, montoKei);
+  const kevExcede = Number.isFinite(montoKev) && excedeTotal(transaccion.monto, montoKev);
   const esValido =
-    Number.isFinite(montoKei) &&
-    Number.isFinite(montoKev) &&
-    validarSplit(transaccion.monto, montoKei, montoKev);
+    Number.isFinite(montoKei) && Number.isFinite(montoKev) && !keiExcede && !kevExcede;
+
+  // Al perder el foco, el otro campo se completa con lo que falta para el
+  // total — evita que el usuario tenga que calcular el resto a mano.
+  function handleBlurKei() {
+    if (!Number.isFinite(montoKei)) return;
+    setMontoKevTexto(String(calcularRestante(transaccion.monto, montoKei)));
+  }
+
+  function handleBlurKev() {
+    if (!Number.isFinite(montoKev)) return;
+    setMontoKeiTexto(String(calcularRestante(transaccion.monto, montoKev)));
+  }
 
   async function handleGuardar() {
     if (!esValido || guardando) return;
@@ -67,6 +79,9 @@ export function SplitModal({ transaccion, onCancelar, onGuardar }: SplitModalPro
               inputMode="decimal"
               value={montoKeiTexto}
               onChange={(e) => setMontoKeiTexto(e.target.value)}
+              onBlur={handleBlurKei}
+              aria-invalid={keiExcede}
+              className={keiExcede ? styles.inputInvalido : undefined}
             />
           </div>
           <div className={`${styles.campo} ${styles.campoKev}`}>
@@ -78,13 +93,16 @@ export function SplitModal({ transaccion, onCancelar, onGuardar }: SplitModalPro
               inputMode="decimal"
               value={montoKevTexto}
               onChange={(e) => setMontoKevTexto(e.target.value)}
+              onBlur={handleBlurKev}
+              aria-invalid={kevExcede}
+              className={kevExcede ? styles.inputInvalido : undefined}
             />
           </div>
         </div>
 
-        {!esValido && (
+        {(keiExcede || kevExcede) && (
           <p className={styles.errorSplit}>
-            Kei + Kev debe sumar {formatMonto(transaccion.monto, transaccion.moneda)}.
+            El monto no puede superar el total de {formatMonto(transaccion.monto, transaccion.moneda)}.
           </p>
         )}
         {error && <p className={styles.errorAccion}>{error}</p>}
