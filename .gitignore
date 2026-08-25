@@ -6,3 +6,4 @@ venv/
 plan-web.md
 .gitignore
 requerimientos-web.md
+supabase/.temp/
