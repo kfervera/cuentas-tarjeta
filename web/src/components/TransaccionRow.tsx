@@ -14,8 +14,13 @@ export function TransaccionRow({ transaccion }: { transaccion: Transaccion }) {
   const asignacion = describirAsignacion(transaccion);
   const esPago = transaccion.tipo === "pago";
 
+  const rowClass = [styles.row, esPago && styles.pago, transaccion.confirmado && styles.confirmado]
+    .filter(Boolean)
+    .join(" ");
+  const montoClass = [styles.monto, esPago && styles.montoPago].filter(Boolean).join(" ");
+
   return (
-    <li className={esPago ? `${styles.row} ${styles.pago}` : styles.row}>
+    <li className={rowClass}>
       <div className={styles.info}>
         <span className={styles.descripcionLinea}>
           {esPago && <span className={styles.badgePago}>Abono</span>}
@@ -24,10 +29,11 @@ export function TransaccionRow({ transaccion }: { transaccion: Transaccion }) {
         <span className={styles.fecha}>{formatFecha(transaccion.fecha_consumo)}</span>
       </div>
       <div className={styles.detalle}>
-        <span className={esPago ? `${styles.monto} ${styles.montoPago}` : styles.monto}>
-          {formatMonto(transaccion.monto, transaccion.moneda)}
+        <span className={montoClass}>{formatMonto(transaccion.monto, transaccion.moneda)}</span>
+        <span className={styles.asignacion}>
+          {!transaccion.confirmado && <span className={styles.dotPendiente} aria-hidden="true" />}
+          {ETIQUETA_ASIGNACION[asignacion]}
         </span>
-        <span className={styles.asignacion}>{ETIQUETA_ASIGNACION[asignacion]}</span>
       </div>
     </li>
   );

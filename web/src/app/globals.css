@@ -6,6 +6,7 @@
   --muted: #6b7280;
   --border: #e5e7eb;
   --success: #16a34a;
+  --warning: #d97706;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,6 +18,7 @@
     --muted: #9ca3af;
     --border: #27272a;
     --success: #4ade80;
+    --warning: #fbbf24;
   }
 }
 
