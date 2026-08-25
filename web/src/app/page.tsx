@@ -1,6 +1,7 @@
 "use client";
 
 import { useTransacciones } from "@/hooks/useTransacciones";
+import { TotalesHeader } from "@/components/TotalesHeader";
 import { TransaccionList } from "@/components/TransaccionList";
 import styles from "./page.module.css";
 
@@ -17,6 +18,7 @@ export default function Home() {
 
   return (
     <main className={styles.page}>
+      <TotalesHeader transacciones={transacciones} />
       <TransaccionList transacciones={transacciones} />
     </main>
   );
