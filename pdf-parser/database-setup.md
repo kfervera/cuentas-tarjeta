@@ -91,3 +91,55 @@ insert into reglas (tipo, patron, kei_pct, kev_pct) values
 ```
 
 Al insertarse con `created_at = now()`, esta regla queda con más prioridad que las reglas semilla por titular — el skill debe evaluar `reglas` ordenadas por `created_at desc` y aplicar la **primera que matchee** (que es la más reciente).
+
+## Políticas RLS (acceso de la app web vía `anon key`)
+
+La app web (`web/`) nunca usa el `service_role key` — se conecta con el `anon public key`,
+acotado por Row Level Security. El skill sigue usando `service_role`, que ignora RLS, así que
+estas políticas no afectan su funcionamiento. Ver `plan-web.md` (decisiones D6/D7 y sección
+"Seguridad") para el detalle de por qué se decidió así.
+
+Alcance del `anon key`:
+- `transacciones`: `SELECT` y `UPDATE` sin restricción de fila (no hay concepto de dueño). Sin
+  `INSERT` ni `DELETE` — la carga/borrado completo es exclusivo del skill.
+- `resumen_estado_cuenta`: solo `SELECT`, como referencia de cuadre.
+- `reglas`: sin política para `anon` — con RLS habilitado y sin `policy`, el acceso queda
+  denegado por defecto (la app no administra reglas, ver §7 de `requerimientos-web.md`).
+
+Ejecutar en el **SQL Editor** de Supabase, en el mismo proyecto donde ya corriste el script de
+la sección anterior:
+
+```sql
+-- ============================================
+-- Políticas RLS — app web "Cuentas KyK" (anon key)
+-- ============================================
+
+alter table transacciones enable row level security;
+alter table resumen_estado_cuenta enable row level security;
+alter table reglas enable row level security;
+
+-- transacciones: leer y editar asignación (monto_kei/monto_kev/confirmado),
+-- sin poder crear ni borrar filas desde la app.
+create policy "anon puede leer transacciones"
+  on transacciones for select
+  to anon
+  using (true);
+
+create policy "anon puede actualizar transacciones"
+  on transacciones for update
+  to anon
+  using (true)
+  with check (true);
+
+-- resumen_estado_cuenta: solo lectura.
+create policy "anon puede leer resumen_estado_cuenta"
+  on resumen_estado_cuenta for select
+  to anon
+  using (true);
+
+-- reglas: sin policy para "anon" a propósito — queda sin acceso.
+```
+
+Después de ejecutarlo, verifica en **Authentication → Policies** que las 3 tablas muestren RLS
+habilitado y que `transacciones`/`resumen_estado_cuenta` tengan las políticas de arriba (y
+`reglas` ninguna).
