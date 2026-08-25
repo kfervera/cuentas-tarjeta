@@ -5,6 +5,11 @@
   gap: 12px;
   padding: 12px 16px;
   border-bottom: 1px solid var(--border);
+  border-left: 3px solid transparent;
+}
+
+.pago {
+  border-left-color: var(--success);
 }
 
 .info {
@@ -14,7 +19,27 @@
   min-width: 0;
 }
 
+.descripcionLinea {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.badgePago {
+  flex-shrink: 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--success);
+  border: 1px solid var(--success);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
 .descripcion {
+  min-width: 0;
   font-weight: 500;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -37,6 +62,10 @@
 .monto {
   font-family: var(--font-geist-mono), monospace;
   font-weight: 600;
+}
+
+.montoPago {
+  color: var(--success);
 }
 
 .asignacion {

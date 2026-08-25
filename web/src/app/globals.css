@@ -5,6 +5,7 @@
   --accent-foreground: #ffffff;
   --muted: #6b7280;
   --border: #e5e7eb;
+  --success: #16a34a;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,6 +16,7 @@
     --accent-foreground: #0a0a0a;
     --muted: #9ca3af;
     --border: #27272a;
+    --success: #4ade80;
   }
 }
 
