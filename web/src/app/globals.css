@@ -1,12 +1,20 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --accent: #0d9488;
+  --accent-foreground: #ffffff;
+  --muted: #6b7280;
+  --border: #e5e7eb;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --accent: #2dd4bf;
+    --accent-foreground: #0a0a0a;
+    --muted: #9ca3af;
+    --border: #27272a;
   }
 }
 
@@ -26,9 +34,22 @@ body {
   flex-direction: column;
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    var(--font-geist-sans),
+    -apple-system,
+    BlinkMacSystemFont,
+    Arial,
+    Helvetica,
+    sans-serif;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Táctil primero: sin highlight azul al tocar filas/botones, sin delay de
+     doble-tap para gestos de swipe (ver requerimientos-web.md §5.2/§5.4). */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
 }
 
 * {
