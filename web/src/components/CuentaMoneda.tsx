@@ -43,7 +43,9 @@ export function CuentaMoneda({ moneda }: CuentaMonedaProps) {
           {accionError}
         </p>
       )}
-      <TransaccionList transacciones={transaccionesMoneda} onAsignar={actualizarAsignacion} />
+      <div className={styles.scroll}>
+        <TransaccionList transacciones={transaccionesMoneda} onAsignar={actualizarAsignacion} />
+      </div>
     </main>
   );
 }
